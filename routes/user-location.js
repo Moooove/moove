@@ -53,9 +53,13 @@ router.post('/userLocation/update', function (req, res) {
 
 router.post('/userLocations/', function (req, res) {
 
-    Event.find({_id: req.params.id}, function (err, event) {
+    Event.find({uuid: req.params.id}, function (err, event) {
         if(err || event == undefined){
-            console.log("Event does not exist");
+            res.send({
+                status: false,
+                msg: 'Event does not exist'
+            });
+            return;
         } else {
             UserLocation.findAll({event_uuid: event},function (err, location) {
                 if(err){
