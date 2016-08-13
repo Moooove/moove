@@ -4,6 +4,7 @@
 
 ### crate event
 
+url: event/new
 method: post
 ```
 {
@@ -24,6 +25,7 @@ callback
 
 ### update location
 
+url: event/record
 method: post
 ```
 {

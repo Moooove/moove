@@ -35,7 +35,6 @@ router.post('/event/new', function (req, res) {
                 msg: 'Internal error',
             });
         } else {
-            console.log(newEvent.title + " event created");
             res.send({
                 status: true,
                 msg: '',
@@ -46,8 +45,16 @@ router.post('/event/new', function (req, res) {
         }
     });
 });
-router.get('/event/:id',function (req,res) {
-    res.render('event');
+router.get('/event/:uuid',function (req,res) {
+    Event.find({ uuid: req.params.uuid }, function (err, event) {
+        if (err) {
+            console.log(err)
+            return console.error(err);
+        } else {
+            console.log(event);
+            res.render('event');
+        }
+    });
 });
 
 router.get('/tracker', function (req,res) {
