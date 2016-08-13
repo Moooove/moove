@@ -61,7 +61,7 @@ callback
     status:boolean,
     msg:string,
     value:{
-        users: [
+        userLocations: [
             {   
                 event_uuid:string,
                 user_uuid:string,
