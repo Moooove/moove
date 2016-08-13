@@ -6,6 +6,9 @@ var mongoose = require('mongoose');
  * We recommend a 30 second connection timeout because it allows for
  * plenty of time in most operating environments.
  */
+var config = new Object();
+
+
 var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
     replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
 
@@ -20,5 +23,5 @@ conn.on('error', console.error.bind(console, 'connection error:'));
 conn.once('open', function() {
     // Wait for the database connection to establish, then start the app.
 });
-
+config.conn = conn;
  module.exports = config;
