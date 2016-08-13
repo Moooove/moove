@@ -31,8 +31,8 @@ method: post
 {
     event_uuid:string,
     user_uuid:string,
-    latitude:number,
-    longitude:number
+    lat:number,
+    long:number
 }   
 ```
 event_uuid and user_uuid will be provided
@@ -65,8 +65,8 @@ callback
             {   
                 event_uuid:string,
                 user_uuid:string,
-                latitude:number,
-                longitude:number
+                lat:number,
+                long:number
             },
             ...
         ]
