@@ -4,6 +4,6 @@ var schema = mongoose.Schema({
     title: String,
     uuid: String
 });
-var Event = mongoose.model('Event', schema);
+var model = mongoose.model('Event', schema);
 
-module.exports = Event;
+module.exports = model;

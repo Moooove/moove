@@ -1,4 +1,6 @@
 var express = require('express');
+// config
+var config = require('../config')
 // models
 var Event = require('../models/event');
 
@@ -7,22 +9,42 @@ var uuidService = require('../services/uuid');
 
 var router = express.Router();
 router.post('/event/new', function (req, res) {
-    var title = req.body.title.trim();
+    // validation
+    if (req.body === undefined && req.body.title === undefined) {
+        res.send({
+            status: false,
+            msg: 'Please enter the title.',
+        });
+        return
+    }
 
+    var title = req.body.title;
+    var uuid = uuidService.newUuid();
+    var url = config.host + '/event/' + uuid;
+    
     var newEvent = new Event();
     newEvent.title = "test";
+    newEvent.title = title;
+    newEvent.uuid = uuid;
 
     newEvent.save(function (err) {
         if (err) {
-            console.log('save error', err);
+            console.log(err);
+            res.send({
+                status: false,
+                msg: 'Internal error',
+            });
         } else {
             console.log(newEvent.title + " event created");
+            res.send({
+                status: true,
+                msg: '',
+                value: {
+                    url: url
+                }
+            })
         }
     });
-
-    var uuid = uuidService.newUuid();
-    res.send({'uuid':uuid});
-
 });
 router.get('/event/:id',function (req,res) {
     res.render('event');
