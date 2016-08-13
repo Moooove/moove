@@ -12,3 +12,18 @@
     font-weight: 300;
     font-size: 26px;
 }
+.clear {
+    clear: both;
+    width: 100%;
+}
+#headerLogo {
+    float: left;
+}
+#headerImage {
+    height: 30px;
+    width: auto;
+}
+#eventDate {
+    font-size: 14px;
+    color: #212121;
+}
