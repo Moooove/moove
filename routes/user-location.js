@@ -4,7 +4,6 @@ var config = require('../config')
 // models
 var UserLocation = require('../models/user-location');
 var Event = require('../models/event');
-
 // services
 var uuidService = require('../services/uuid');
 
@@ -22,17 +21,18 @@ router.post('/userLocation/update', function (req, res) {
         });
         return
     }
-
-    var title = req.body.title;
-    var uuid = uuidService.newUuid();
-    var url = config.host + '/event/' + uuid;
     
-    var newEvent = new Event();
-    newEvent.title = "test";
-    newEvent.title = title;
-    newEvent.uuid = uuid;
-
-    newEvent.save(function (err) {
+    var obj = {
+        event_uuid: req.body.event_uuid, 
+        user_uuid: req.body.user_uuid,
+        lat: req.body.lat, 
+        long: req.body.long
+    }
+    var keys = {
+        event_uuid: obj.event_uuid, 
+        user_uuid: obj.user_uuid
+    }
+    UserLocation.update(keys, obj, {upsert: true},function (err) {
         if (err) {
             console.log(err);
             res.send({
@@ -42,10 +42,7 @@ router.post('/userLocation/update', function (req, res) {
         } else {
             res.send({
                 status: true,
-                msg: '',
-                value: {
-                    url: url
-                }
+                msg: ''
             })
         }
     });
