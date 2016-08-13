@@ -22,7 +22,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>Material Design Lite</title>
+    <title>Moove | Real time tracking of cyclists</title>
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -51,17 +51,6 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/custom.css">
 
-    <style>
-        #view-source {
-            position: fixed;
-            display: block;
-            right: 0;
-            bottom: 0;
-            margin-right: 40px;
-            margin-bottom: 40px;
-            z-index: 900;
-        }
-    </style>
 </head>
 
 <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base bodyStyle">
@@ -69,12 +58,14 @@
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <!-- Title -->
-                <span class="mdl-layout-title">Title</span>
+                <div id="headerLogo">
+                    <a href="index.html"><img id="headerImage" src="img/moove-logo.png"></a>
+                </div>
                 <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
                 <!-- Navigation. We hide it in small screens. -->
                 <nav class="mdl-navigation">
-                    <a class="mdl-navigation__link" href="">About</a>
+                    <a class="mdl-navigation__link" href="about.html">About</a>
                 </nav>
             </div>
         </header>
@@ -87,17 +78,24 @@
                     <p class="mainHeader">Real time tracking of cyclists in your meetup.</p>
                 </div>
                 <form action="#">
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input class="mdl-textfield__input" type="text" id="sample3">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label clear">
+                        <input class="mdl-textfield__input" type="text" id="sample4">
                         <label class="mdl-textfield__label" for="sample3">Title</label>
                     </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label clear">
+                        <input class="mdl-textfield__input" type="text" id="sample4">
+                        <label class="mdl-textfield__label" for="sample3">dd/mm/yy</label>
+                    </div>
                 </form>
+
 
                 <div class="mdl-cell mdl-cell--12-col">
                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                         Generate map url
                     </button>
-                    <a href="#" class="linkColor"><p>Http://www.moove.heroku.....</p></a>
+                    <a href="#" class="linkColor">
+                        <p>Http://www.moove.heroku.....</p>
+                    </a>
                 </div>
             </div>
 
@@ -134,7 +132,6 @@
                 <div class="mdl-logo">Made during the 2016 Summer of Tech Hackfest in Auckland</div>
                 <ul class="mdl-mini-footer__link-list">
                     <li><a href="https://github.com/Moooove/moove">View the repo</a></li>
-                    <li><a href="#">Privacy &nbsp; Terms</a></li>
                 </ul>
             </div>
         </footer>
