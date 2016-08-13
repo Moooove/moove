@@ -12,10 +12,10 @@ var config = new Object();
 var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
     replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
 
-var mongodbUri = 'mongodb://summerofftech:summeroftech2016@ds153845.mlab.com:53845/heroku_pp2t0tvn/links'
+var mongodbUri = 'mongodb://heroku_pp2t0tvn:gujq0rrlqd71tji752275hda7e@ds153845.mlab.com:53845/heroku_pp2t0tvn'
 ;
 
-mongoose.connect(mongodbUri, options);
+mongoose.connect(process.env.MONGOLAB_URI || mongodbUri, options);
 var conn = mongoose.connection;
 
 conn.on('error', console.error.bind(console, 'connection error:'));
