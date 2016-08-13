@@ -49,36 +49,47 @@ router.post('/userLocation/update', function (req, res) {
 });
 
 router.post('/userLocations/', function (req, res) {
+    // validation
+    if (req.body === undefined 
+        && req.body.event_uuid === undefined) {
+        res.send({
+            status: false,
+            msg: 'Invalid argument',
+        });
+        return
+    }
 
-    Event.find({uuid: req.params.id}, function (err, event) {
-        if(err || event == undefined){
+    var event_uuid = req.body.event_uuid;
+    Event.find({event_uuid: event_uuid}, function (err, event) {
+        if(err){
+            res.send({
+                status: false,
+                msg: 'Internal error'
+            });
+        } else if(event === undefined){
             res.send({
                 status: false,
                 msg: 'Event does not exist'
             });
-            return;
         } else {
-            UserLocation.findAll({event_uuid: event},function (err, location) {
+            UserLocation.find({event_uuid: event_uuid},function (err, userLocations) {
                 if(err){
-                    console.log("no user location found")
+                    res.send({
+                        status: false,
+                        msg: 'Internal error'
+                    });
                 } else {
-
-                    var model = {
+                    res.send({
                         status: true,
-                        msg: "Locations",
                         value: {
-                            users: location
+                            userLocations: userLocations
                         }
-                    }
+                    })
                 }
-
             })
-
         }
-        
     })
     // event_uuid
-
     // query all userLocation has event_uuid
 });
 
