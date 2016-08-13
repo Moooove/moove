@@ -10,10 +10,14 @@ var uuidService = require('../services/uuid');
 var router = express.Router();
 router.post('/userLocation/update', function (req, res) {
     // validation
-    if (req.body === undefined && req.body.title === undefined && req.body.title === undefined) {
+    if (req.body === undefined 
+        && req.body.event_uuid === undefined 
+        && req.body.user_uuid === undefined
+        && req.body.lat === undefined
+        && req.body.long === undefined) {
         res.send({
             status: false,
-            msg: 'Please enter the title.',
+            msg: 'Invalid argument',
         });
         return
     }
@@ -44,6 +48,12 @@ router.post('/userLocation/update', function (req, res) {
             })
         }
     });
+});
+
+router.post('/userLocations/', function (req, res) {
+    // event_uuid
+
+    // query all userLocation has event_uuid
 });
 
 module.exports = router;
