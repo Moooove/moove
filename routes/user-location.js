@@ -3,6 +3,7 @@ var express = require('express');
 var config = require('../config')
 // models
 var UserLocation = require('../models/user-location');
+var Event = require('../models/event');
 
 // services
 var uuidService = require('../services/uuid');
@@ -51,6 +52,30 @@ router.post('/userLocation/update', function (req, res) {
 });
 
 router.post('/userLocations/', function (req, res) {
+
+    Event.find({_id: req.params.id}, function (err, event) {
+        if(err || event == undefined){
+            console.log("Event does not exist");
+        } else {
+            UserLocation.findAll({event_uuid: event},function (err, location) {
+                if(err){
+                    console.log("no user location found")
+                } else {
+
+                    var model = {
+                        status: true,
+                        msg: "Locations",
+                        value: {
+                            users: location
+                        }
+                    }
+                }
+
+            })
+
+        }
+        
+    })
     // event_uuid
 
     // query all userLocation has event_uuid
