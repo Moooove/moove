@@ -18,13 +18,10 @@ router.post('/event/new', function (req, res) {
         return
     }
 
-    var title = req.body.title;
     var uuid = uuidService.newUuid();
     var url = config.host + '/event/' + uuid;
-    
     var newEvent = new Event();
-    newEvent.title = "test";
-    newEvent.title = title;
+    newEvent.title = req.body.title;
     newEvent.uuid = uuid;
 
     newEvent.save(function (err) {
