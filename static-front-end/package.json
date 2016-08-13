@@ -1,0 +1,13 @@
+{
+  "name": "ian-gulp",
+  "version": "0.0.2",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-connect": "*",
+    "gulp-plumber": "*",
+    "gulp-sass": "*",
+    "gulp-util": "*"
+  }
+}
