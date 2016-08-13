@@ -22,6 +22,10 @@ router.post('/event/new', function (req, res) {
 
     var uuid = uuidService.newUuid();
     res.send({'uuid':uuid});
+
+});
+router.get('/event/:id',function (req,res) {
+    res.render('event');
 });
 
 module.exports = router;
