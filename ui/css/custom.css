@@ -1,0 +1,30 @@
+.mainContent {
+    max-width: 800px;
+    padding: 40px;
+}
+.bodyStyle {
+    background-color: #2196F3 !important;
+}
+.linkColor {
+    color: #ffffff;
+}
+.mainHeader {
+    font-weight: 300;
+    font-size: 26px;
+}
+.clear {
+    clear: both;
+    width: 100%;
+}
+#headerLogo {
+    float: left;
+}
+#headerImage {
+    height: 30px;
+    width: auto;
+}
+#eventDate {
+    font-size: 14px;
+    color: #212121;
+    padding: 15px 0 15px 0;
+}
