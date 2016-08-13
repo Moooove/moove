@@ -1,8 +1,8 @@
+// import node modules
 var path = require('path');
 var express = require('express');
 var exphbs = require('express-handlebars');
-var config = require('./config');
-
+// import routes
 var indexRoute = require('./routes/index');
 var app = express();
 
