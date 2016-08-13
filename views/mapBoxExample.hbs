@@ -19,7 +19,17 @@
     </style>
 
   </head>
-  <body>
+  <body ng-app="broadcastApp">
+  
+    <div ng-controller="BcCtrl">
+          <div class="form-group">
+            <!-- Delay -->
+            <label>number of refreshes (every 2s)</label>
+              <input type="" ng-model="count">
+          </div>
+      <button ng-disabled="isDisabled" class="btn btn-primary" ng-click="start()">Start</button>
+    </div>
+
 
 
     <div id="map"></div>
@@ -99,5 +109,81 @@
     }
   </script>
   
+      <script>
+    angular.module('broadcastApp', ["pubnub.angular.service"])
+      .controller('BcCtrl', function ($rootScope, $scope, PubNub, $window) {
+        if (!$rootScope.initialized) {
+          PubNub.init({
+            publish_key: 'pub-c-03930876-06f1-43cc-b979-edb641836a26',
+            subscribe_key: 'sub-c-aa6ca7c2-60fe-11e6-93e5-0619f8945a4f'
+          });
+          $rootScope.initialized = true;
+        }
+
+        if ($window.navigator.geolocation) {
+          $window.navigator.geolocation.getCurrentPosition(function(position) { 
+            var locationMarker = null;
+            if (locationMarker){
+              // return if there is a locationMarker bug
+                return;
+            }
+            $scope.mylat = position.coords["latitude"];
+            $scope.mylng = position.coords["longitude"];
+            $scope.$apply(mainFcn());
+          },
+          function(error) {
+            console.log("Error: ", error);
+          },
+          {
+            enableHighAccuracy: true
+          }
+          );
+        }
+
+        var mainFcn = function() {
+          $scope.start_lat = $scope.mylat; //starting location
+          $scope.start_long = $scope.mylng; // starting location
+          $scope.lat_inc = 0.001; // latitude incremental add
+          $scope.long_inc = 0.001; // longitude incremental add
+          $scope.delay = 2; // time delay between messages
+          $scope.count = 10; // number of messages
+          $scope.isDisabled = false;
+
+          $scope.start = function() {
+            $scope.coords = {"lat":$scope.start_lat, "lng":$scope.start_long, "alt":0 };
+            $scope.pnCall($scope.coords);
+          }
+
+          $scope.pnCall = function(coords) {
+            console.log(coords);
+            $scope.isDisabled = true; // disable the start button
+            PubNub.ngPublish({
+              channel: "mymaps",
+              message: coords,
+              callback: function(){setTimeout(function(){$scope.tracker(coords)},$scope.delay*1000)}
+            });
+          }
+
+          $scope.tracker = function(coords) {
+            var new_lng;
+            var new_lat;
+
+            if ($scope.count - 1 === 0) {
+              console.log("done");
+              $scope.$apply($scope.isDisabled = false);
+            } else {
+              $window.navigator.geolocation.getCurrentPosition(function(position) {
+              new_lng = position.coords["longitude"];
+              new_lat = position.coords["latitude"];
+              coords = {"lat":new_lat, "lng":new_lng, "alt":0 };
+              $scope.pnCall(coords); // call pnCall and send new coords
+              $scope.$apply($scope.count -= 1)
+              });
+            }
+          }
+        };
+      });
+    </script>
+
   </body>
 </html>
