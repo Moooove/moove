@@ -14,19 +14,17 @@
       html, body, #map {
         height: 700px;
         margin: 0px;
-        padding: 0px;
+        padding: 0px
       }
     </style>
 
   </head>
   <body>
-
-
+    <div class="container"><h1>PubNub MapBox Example</h1></div>
     <div id="map"></div>
     <br>
     <div class="container"><a href="/">Broadcast Page (Home)</a></div>
   <script>
-    var userCoords = {};
     var lat = null;
     var lng = null;
 
@@ -37,7 +35,7 @@
           // return if there is a locationMarker bug
           return;
         }
-        userId = Math.floor(Math.random()*1000000);
+
         // sets default position to your position
         lat = position.coords["latitude"];
         lng = position.coords["longitude"];
@@ -98,6 +96,5 @@
       marker.addTo(map);
     }
   </script>
-  
   </body>
 </html>
