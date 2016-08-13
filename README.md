@@ -4,8 +4,7 @@
 
 ### crate event
 
-url: event/new
-method: post
+url: 'event/new', method: post
 ```
 {
     title:string
@@ -25,8 +24,7 @@ callback
 
 ### update location
 
-url: event/record
-method: post
+url: 'userLocation/record', method: post
 ```
 {
     event_uuid:string,
@@ -61,7 +59,7 @@ callback
     status:boolean,
     msg:string,
     value:{
-        users: [
+        userLocations: [
             {   
                 event_uuid:string,
                 user_uuid:string,

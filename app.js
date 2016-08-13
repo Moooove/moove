@@ -8,6 +8,7 @@ var config = require('./config');
 // routes
 var indexRoute = require('./routes/index');
 var eventRoute = require('./routes/event');
+var userLocationRoute = require('./routes/user-location');
 
 // mongodb
 mongoose.connect(config.mongodbUri);
@@ -29,6 +30,7 @@ app.set('view engine', '.hbs');
 // routes
 app.use('/', indexRoute);
 app.use('/', eventRoute);
+app.use('/', userLocationRoute);
 
 app.listen(process.env.PORT || 3000, function () {
   console.log('Moove is running');
