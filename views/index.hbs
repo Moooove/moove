@@ -1,9 +1,102 @@
-<h2>Moove App</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+</head>
 
-<h3>{{mongodb}}</h3>
+<body>
+    <h1>My location</h1>
+    <div id="my-location"></div>
+    <h1>All locations</h1>
+    <div id="other-locations"></div>
+    <button onclick="generateEventUrl('test')">create event test</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    function generateEventUrl(title){
+        $.ajax({
+            type: 'post',
+            contentType: 'application/json',
+            url: '/event/new',
+            data: JSON.stringify({
+                title: title
+            }),
+            success: function(response) {
+                if (response.status == false){
+                    console.log(response.msg)
+                } else {
+                    console.log(response.value.url)
+                }
+            }
+	    })
+    }
+    jQuery(document).ready(function($) {
+        runGetUserLocationsTimer();
+        runUpdateLocationTimer();
+    });
+    var event_uuid = '4f3be33a-13dd-4cdf-b77f-8ef757279a34';
+    var user_uuid = '{{user_uuid}}';
+    function runUpdateLocationTimer(){
+        setInterval(function(){
+              navigator.geolocation.getCurrentPosition(success, error);
+        }, 1000)
 
-<h3>{{uuid}}</h3>
+        function success(position) {
+            var lat  = position.coords.latitude;
+            var long = position.coords.longitude;
+            updateLocation(lat,long);
+        };
+        function error() {
+            console.log('can\'t find location');
+        };
 
-<a href="/event/mapBox"> map box example</a>
-<a href="/tracker"> tracker </a>
+        function updateLocation(lat,long){
+            $.ajax({
+                type: 'post',
+                contentType: 'application/json',
+                url: '/userLocation/update',
+                data: JSON.stringify({
+                    event_uuid: event_uuid,
+                    user_uuid: user_uuid,
+                    lat:lat,
+                    long:long
+                }),
+                success: function(response) {
+                    if (response.status == false){
+                        console.log(response.msg)
+                    } else {
+                        $('#my-location').text('lat: '+lat+', long:'+long);
+                    }
+                }
+            })
+        }
+       
+    }
+    function runGetUserLocationsTimer(){
+        setInterval(function(){
+            $.ajax({
+                type: 'post',
+                contentType: 'application/json',
+                url: '/userLocations',
+                data: JSON.stringify({
+                    event_uuid: event_uuid,
+                }),
+                success: function(response) {
+                    if (response.status == false){
+                        console.log(response.msg)
+                    } else {
+                        var text = ''
+                        for(var i = 0 ; i < response.value.userLocations.length ; i++ ){
+                            var obj = response.value.userLocations[i];
+                            text += 'lat: '+ obj.lat+', long:'+ obj.long + '<br>';
+                        }
+                        $('#other-locations').html(text);
+                    }
+                }
+            })
+        }, 1000)
+    } 
+</script>
+</body>
 
+</html>
