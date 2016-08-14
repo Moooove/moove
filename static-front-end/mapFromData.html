@@ -62,8 +62,8 @@ var geojson = inputJson.map(function(obj){
 
 console.log(geojson);
 
-/**
-var geojson = [
+
+var testjson = [
   {
     "type": "Feature",
     "geometry": {
@@ -79,14 +79,21 @@ var geojson = [
     }
   }
 ];
-**/
+
 console.log(geojson);
 
 
 var mapGeo = L.mapbox.map('map_geo', 'mapbox.streets')
   .setView([-36.8433287, 174.75697], 17);
 
+//do one time
 var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(mapGeo);
+
+//do every x seconds
+myLayer.clearLayers();
+var myLayer = L.mapbox.featureLayer().setGeoJSON(geo.json).addTo(mapGeo);
+
+
 mapGeo.scrollWheelZoom.disable();
 </script>
 </body>
