@@ -40,11 +40,15 @@
 
     <link rel="shortcut icon" href="images/favicon.png">
 
-    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
-    <!--
-    <link rel="canonical" href="http://www.example.com/">
-    -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.2.1/jssocials.min.js"></script>
 
+    <!-- SHARE tool -->
+    <link rel="stylesheet" href="http://cdn.rawgit.com/tabalinas/jssocials/v1.2.1/dist/jssocials.css">
+    <link rel="stylesheet" href="http://cdn.rawgit.com/tabalinas/jssocials/v1.2.1/dist/jssocials-theme-flat.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <!-- geo location -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/css/material.blue-red.min.css" />
@@ -99,11 +103,14 @@
                         Copy it
                     </button>
                 </div>
+                <div id="share" style="font-size:12px" class="mdl-cell mdl-cell--12-col">
+ 
+                </div>
+
             </div>
         </main>
         <script src="https://code.getmdl.io/1.2.0/material.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+        
         <script>
             new Clipboard('#event-link-copy-btn');
 
@@ -129,6 +136,13 @@
                                 $('#event-link-copy-btn')
                                     .show()
                                     .attr('data-clipboard-text',response.value.url)
+                                $("#share").jsSocials({
+                                    url: response.value.url,
+                                    text: title,
+                                    showLabel: false,
+                                    showCount: false,
+                                    shares: ["twitter", "facebook", "googleplus"]
+                                });
                             }
                         }
                     })
