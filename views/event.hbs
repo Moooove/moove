@@ -47,9 +47,23 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="css/material.blue-red.min.css" />
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="/css/material.blue-red.min.css" />
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/custom.css">
+
+
+
+    <script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
+    <style>
+    body { margin:0; padding:0; }
+    .map { position:absolute; top:0; bottom:0; width:100%; }
+    .marker {
+        color: #ff5252;
+    }
+    </style>
+
+
 
 </head>
 
@@ -59,7 +73,7 @@
             <div class="mdl-layout__header-row">
                 <!-- Title -->
                 <div id="headerLogo">
-                    <a href="/"><img id="headerImage" src="img/moove-logo.png"></a>
+                    <a href="/"><img id="headerImage" src="/img/moove-logo.png"></a>
                 </div>
                 <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
@@ -74,17 +88,8 @@
         <main class="mdl-layout__content">
             <div class="mdl-grid mainContent">
                 <!-- boxed content here -->
-                <div class="mdl-cell mdl-cell--12-col">
-                    <p class="mainHeader">Cyclists Central AKL</p>
-                    <!--<div class="mdl-cell mdl-cell--12-col">
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                            Share my location
-                        </button>
-                    </div>-->
-                    <!-- MAP TO GO HERE -->
-                    <p>MAP HERE</p>
-                </div>
-
+                <div id='map_geo' class='map'></div>
+            </div>
         </main>
         <footer class="mdl-mini-footer">
             <div class="mdl-mini-footer__left-section">
@@ -95,6 +100,93 @@
             </div>
         </footer>
         <script src="https://code.getmdl.io/1.2.0/material.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<script>
+
+    jQuery(document).ready(function($) {
+        runGetUserLocationsTimer();
+        runUpdateLocationTimer();
+    });
+    var event_uuid = '{{event_uuid}}';
+    var user_uuid = '{{user_uuid}}';
+    L.mapbox.accessToken = 'pk.eyJ1IjoibW9vb292ZSIsImEiOiJjaXJzazc2N3owaXFkZmdtOGhsb3IwNGVoIn0.VVd0P45rI6kEfsT1TbxClg';
+    var mapGeo = L.mapbox.map('map_geo', 'mapbox.streets').setView([-36.8433287, 174.75697], 17);
+    var myLayer;
+    mapGeo.scrollWheelZoom.disable();
+
+    function runUpdateLocationTimer(){
+        setInterval(function(){
+              navigator.geolocation.getCurrentPosition(success, error);
+        }, 1000)
+
+        function success(position) {
+            var lat  = position.coords.latitude;
+            var long = position.coords.longitude;
+            updateLocation(lat,long);
+        };
+        function error() {
+            console.log('can\'t find location');
+        };
+
+        function updateLocation(lat,long){
+            $.ajax({
+                type: 'post',
+                contentType: 'application/json',
+                url: '/userLocation/update',
+                data: JSON.stringify({
+                    event_uuid: event_uuid,
+                    user_uuid: user_uuid,
+                    lat:lat,
+                    long:long
+                }),
+                success: function(response) {
+                    if (response.status == false){
+                        console.log(response.msg)
+                    } else {
+                    }
+                }
+            })
+        }
+       
+    }
+    function runGetUserLocationsTimer(){
+        setInterval(function(){
+            $.ajax({
+                type: 'post',
+                contentType: 'application/json',
+                url: '/userLocations',
+                data: JSON.stringify({
+                    event_uuid: event_uuid,
+                }),
+                success: function(response) {
+                    if (response.status == false){
+                        console.log(response.msg)
+                    } else {
+                        var locations = response.value.userLocations.map(function(obj){
+                            var newObj = 
+                            {
+                                "type": "Feature",
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [obj.long, obj.lat]
+                                },
+                                "properties": {
+                                "marker-color": "#ff5252"
+                                }
+                            }
+                            return newObj;
+                        });
+                        if (myLayer !== undefined)
+                            myLayer.clearLayers();
+                        myLayer = L.mapbox.featureLayer().setGeoJSON(locations).addTo(mapGeo);
+                    }
+                }
+            })
+        }, 1000)
+    } 
+</script>
+
 </body>
 
 </html>

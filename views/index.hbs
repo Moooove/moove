@@ -47,9 +47,9 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="css/material.blue-red.min.css" />
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="/css/material.blue-red.min.css" />
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/custom.css">
 
 </head>
 
@@ -59,7 +59,7 @@
             <div class="mdl-layout__header-row">
                 <!-- Title -->
                 <div id="headerLogo">
-                    <a href="/"><img id="headerImage" src="img/moove-logo.png"></a>
+                    <a href="/"><img id="headerImage" src="/img/moove-logo.png"></a>
                 </div>
                 <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
@@ -88,7 +88,7 @@
 
                 <div class="mdl-cell mdl-cell--12-col">
                     <button onclick="generateEventUrl()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                        Generate an event URL
+                        Generate a map
                     </button>
                 </div>
                 <div class="mdl-cell mdl-cell--12-col">
@@ -119,102 +119,30 @@
                 var title = $('#event-title-input').val().trim();
                 if (title == ''){
                     alert('Please inter the title.')
-                }
-                $.ajax({
-                    type: 'post',
-                    contentType: 'application/json',
-                    url: '/event/new',
-                    data: JSON.stringify({
-                        title: title
-                    }),
-                    success: function(response) {
-                        if (response.status == false){
-                            console.log(response.msg)
-                        } else {
-                            $('#event-link-url')
-                                .attr('href',response.value.url)
-                                .text(response.value.url)
-                            $('#event-link-copy-btn')
-                                .show()
-                                .attr('data-clipboard-text',response.value.url)
+                } else {
+                    $.ajax({
+                        type: 'post',
+                        contentType: 'application/json',
+                        url: '/event/new',
+                        data: JSON.stringify({
+                            title: title
+                        }),
+                        success: function(response) {
+                            if (response.status == false){
+                                console.log(response.msg)
+                            } else {
+                                $('#event-link-url')
+                                    .attr('href',response.value.url)
+                                    .text(response.value.url)
+                                $('#event-link-copy-btn')
+                                    .show()
+                                    .attr('data-clipboard-text',response.value.url)
+                            }
                         }
-                    }
-                })
+                    })
+                }
             }
        </script>     
 </body>
 
 </html>
-
-
-
-
-<!--
-
-    jQuery(document).ready(function($) {
-        runGetUserLocationsTimer();
-        runUpdateLocationTimer();
-    });
-    var event_uuid = '4f3be33a-13dd-4cdf-b77f-8ef757279a34';
-    var user_uuid = '{{user_uuid}}';
-    function runUpdateLocationTimer(){
-        setInterval(function(){
-              navigator.geolocation.getCurrentPosition(success, error);
-        }, 1000)
-
-        function success(position) {
-            var lat  = position.coords.latitude;
-            var long = position.coords.longitude;
-            updateLocation(lat,long);
-        };
-        function error() {
-            console.log('can\'t find location');
-        };
-
-        function updateLocation(lat,long){
-            $.ajax({
-                type: 'post',
-                contentType: 'application/json',
-                url: '/userLocation/update',
-                data: JSON.stringify({
-                    event_uuid: event_uuid,
-                    user_uuid: user_uuid,
-                    lat:lat,
-                    long:long
-                }),
-                success: function(response) {
-                    if (response.status == false){
-                        console.log(response.msg)
-                    } else {
-                        $('#my-location').text('lat: '+lat+', long:'+long);
-                    }
-                }
-            })
-        }
-       
-    }
-    function runGetUserLocationsTimer(){
-        setInterval(function(){
-            $.ajax({
-                type: 'post',
-                contentType: 'application/json',
-                url: '/userLocations',
-                data: JSON.stringify({
-                    event_uuid: event_uuid,
-                }),
-                success: function(response) {
-                    if (response.status == false){
-                        console.log(response.msg)
-                    } else {
-                        var text = ''
-                        for(var i = 0 ; i < response.value.userLocations.length ; i++ ){
-                            var obj = response.value.userLocations[i];
-                            text += 'lat: '+ obj.lat+', long:'+ obj.long + '<br>';
-                        }
-                        $('#other-locations').html(text);
-                    }
-                }
-            })
-        }, 1000)
-    } 
-</script>-->
