@@ -70,24 +70,7 @@
       );
     }   
 
-    function pubs() {
-      pubnub = PUBNUB.init({
-        publish_key: 'pub-c-03930876-06f1-43cc-b979-edb641836a26',
-        subscribe_key: 'sub-c-aa6ca7c2-60fe-11e6-93e5-0619f8945a4f'
-      })
-      pubnub.subscribe({
-        channel: "mymaps",
-        message: function(message, channel) {
-          console.log(message)
-          lat = message['lat'];
-          lng = message['lng'];
-          map.setView([lat, lng]);
-          map_line.addLatLng([lat,lng]);
-          marker.setLatLng(L.latLng(lat, lng));
-        },
-        connect: function() {console.log("pubnub connected")}
-      })
-    }
+
 
     //allow pubs to see map_line polyline
     var map_line;
@@ -115,10 +98,6 @@
     angular.module('broadcastApp', ["pubnub.angular.service"])
       .controller('BcCtrl', function ($rootScope, $scope, PubNub, $window) {
         if (!$rootScope.initialized) {
-          PubNub.init({
-            publish_key: 'pub-c-03930876-06f1-43cc-b979-edb641836a26',
-            subscribe_key: 'sub-c-aa6ca7c2-60fe-11e6-93e5-0619f8945a4f'
-          });
           $rootScope.initialized = true;
         }
 
@@ -156,15 +135,17 @@
             $scope.pnCall($scope.coords);
           }
 
-          $scope.pnCall = function(coords) {
-            console.log(coords);
-            $scope.isDisabled = true; // disable the start button
-            PubNub.ngPublish({
-              channel: "mymaps",
-              message: coords,
-              callback: function(){setTimeout(function(){$scope.tracker(coords)},$scope.delay*1000)}
-            });
+          $scope.postToServer = function () {
+
+              var coordinates = {
+                  lat: $scope.coords.lat;
+                  long: $scope.coords.lng;
+              }
+
+
+
           }
+
 
           $scope.tracker = function(coords) {
             var new_lng;
