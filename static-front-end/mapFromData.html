@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title></title>
+  <script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
+  <style>
+    body { margin:0; padding:0; }
+    .map { position:absolute; top:0; bottom:0; width:100%; }
+    .marker {
+      color: #ff5252;
+    }
+  </style>
+</head>
+<body>
+<div id='map_geo' class='map'> </div>
+<script>
+L.mapbox.accessToken = 'pk.eyJ1IjoibW9vb292ZSIsImEiOiJjaXJzazc2N3owaXFkZmdtOGhsb3IwNGVoIn0.VVd0P45rI6kEfsT1TbxClg';
+
+inputJson = [
+     {
+       "_id": "57afc34b0767c14c8a262545",
+       "event_uuid": "4f3be33a-13dd-4cdf-b77f-8ef757279a34",
+       "user_uuid": "9af5bf17-9c01-464b-a761-884fa7897de7",
+       "long": 174.75697,
+       "lat": -36.8433287,
+       "timeout": "2016-08-14T01:14:04.394Z"
+     },
+     {
+       "_id": "57afc3570767c14c8a262546",
+       "event_uuid": "4f3be33a-13dd-4cdf-b77f-8ef757279a34",
+       "user_uuid": "5cbfcad8-a011-4c7f-b3eb-c96a588b6e68",
+       "long": 174.7570024,
+       "lat": -36.8433245,
+       "timeout": "2016-08-14T01:14:04.394Z"
+     },
+     {
+       "_id": "57afc3cb0767c14c8a262547",
+       "event_uuid": "4f3be33a-13dd-4cdf-b77f-8ef757279a34",
+       "user_uuid": "eeeb92d7-62d8-490c-bf10-4c55fb84ccb9",
+       "long": 174.7569633,
+       "lat": -36.843328199999995,
+       "timeout": "2016-08-14T01:14:04.394Z"
+     }];
+
+var geojson = inputJson.map(function(obj){
+  var geoObj = 
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [obj.long, obj.lat]
+        },
+        "properties": {
+        "marker-color": "#ff5252"
+        }
+      }
+    return geoObj
+  });
+
+
+console.log(geojson);
+
+/**
+var geojson = [
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [172.75722116588332,-36.843401780438556]
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [174.75722116588312,-36.843401780438555]
+    }
+  }
+];
+**/
+console.log(geojson);
+
+
+var mapGeo = L.mapbox.map('map_geo', 'mapbox.streets')
+  .setView([-36.8433287, 174.75697], 17);
+
+var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(mapGeo);
+mapGeo.scrollWheelZoom.disable();
+</script>
+</body>
+</html>
