@@ -54,11 +54,4 @@ router.get('/event/:uuid',function (req,res) {
     });
 });
 
-router.get('/tracker', function (req,res) {
-    res.render('tracker');
-})
-router.get('/mapbox',function (req,res) {
-    res.render('mapBoxExample');
-})
-
 module.exports = router;

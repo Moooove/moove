@@ -6,7 +6,7 @@ var bodyParser = require('body-parser')
 // config
 var config = require('./config');
 // routes
-var indexRoute = require('./routes/index');
+var mainRoute = require('./routes/main');
 var eventRoute = require('./routes/event');
 var userLocationRoute = require('./routes/user-location');
 
@@ -22,13 +22,17 @@ var app = express();
 // json body parser
 app.use(bodyParser.json())
 
+// static file
+app.use(express.static('public'));
+
+
 // template engine
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
 // routes
-app.use('/', indexRoute);
+app.use('/', mainRoute);
 app.use('/', eventRoute);
 app.use('/', userLocationRoute);
 

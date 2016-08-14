@@ -65,7 +65,7 @@
                 <div class="mdl-layout-spacer"></div>
                 <!-- Navigation. We hide it in small screens. -->
                 <nav class="mdl-navigation">
-                    <a class="mdl-navigation__link" href="/about">About</a>
+                    <a class="mdl-navigation__link" href="/">About</a>
                 </nav>
             </div>
         </header>
@@ -80,14 +80,14 @@
                 <div class="mdl-cell mdl-cell--12-col">
 
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label clear">
-                        <input class="mdl-textfield__input" type="text" id="event-title-input">
+                        <input class="mdl-textfield__input" type="text" id="event-title-label">
                         <label class="mdl-textfield__label" for="sample3">Title</label>
                     </div>
                 </div>
 
 
                 <div class="mdl-cell mdl-cell--12-col">
-                    <button onclick="generateEventUrl()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    <button onclick="" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                         Generate an event URL
                     </button>
                 </div>
@@ -95,7 +95,7 @@
                     <a id="event-link-url" href="#" class="linkColor"></a>
                 </div>
                 <div class="mdl-cell mdl-cell--12-col">
-                    <button id="event-link-copy-btn" style="display:none" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    <button id="event-link-copy-btn" style="display:hidden" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                         Copy it
                     </button>
                 </div>
@@ -110,111 +110,6 @@
             </div>
         </footer>
         <script src="https://code.getmdl.io/1.2.0/material.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
-        <script>
-            new Clipboard('#event-link-copy-btn');
-
-            function generateEventUrl(){
-                var title = $('#event-title-input').val().trim();
-                if (title == ''){
-                    alert('Please inter the title.')
-                }
-                $.ajax({
-                    type: 'post',
-                    contentType: 'application/json',
-                    url: '/event/new',
-                    data: JSON.stringify({
-                        title: title
-                    }),
-                    success: function(response) {
-                        if (response.status == false){
-                            console.log(response.msg)
-                        } else {
-                            $('#event-link-url')
-                                .attr('href',response.value.url)
-                                .text(response.value.url)
-                            $('#event-link-copy-btn')
-                                .show()
-                                .attr('data-clipboard-text',response.value.url)
-                        }
-                    }
-                })
-            }
-       </script>     
 </body>
 
 </html>
-
-
-
-
-<!--
-
-    jQuery(document).ready(function($) {
-        runGetUserLocationsTimer();
-        runUpdateLocationTimer();
-    });
-    var event_uuid = '4f3be33a-13dd-4cdf-b77f-8ef757279a34';
-    var user_uuid = '{{user_uuid}}';
-    function runUpdateLocationTimer(){
-        setInterval(function(){
-              navigator.geolocation.getCurrentPosition(success, error);
-        }, 1000)
-
-        function success(position) {
-            var lat  = position.coords.latitude;
-            var long = position.coords.longitude;
-            updateLocation(lat,long);
-        };
-        function error() {
-            console.log('can\'t find location');
-        };
-
-        function updateLocation(lat,long){
-            $.ajax({
-                type: 'post',
-                contentType: 'application/json',
-                url: '/userLocation/update',
-                data: JSON.stringify({
-                    event_uuid: event_uuid,
-                    user_uuid: user_uuid,
-                    lat:lat,
-                    long:long
-                }),
-                success: function(response) {
-                    if (response.status == false){
-                        console.log(response.msg)
-                    } else {
-                        $('#my-location').text('lat: '+lat+', long:'+long);
-                    }
-                }
-            })
-        }
-       
-    }
-    function runGetUserLocationsTimer(){
-        setInterval(function(){
-            $.ajax({
-                type: 'post',
-                contentType: 'application/json',
-                url: '/userLocations',
-                data: JSON.stringify({
-                    event_uuid: event_uuid,
-                }),
-                success: function(response) {
-                    if (response.status == false){
-                        console.log(response.msg)
-                    } else {
-                        var text = ''
-                        for(var i = 0 ; i < response.value.userLocations.length ; i++ ){
-                            var obj = response.value.userLocations[i];
-                            text += 'lat: '+ obj.lat+', long:'+ obj.long + '<br>';
-                        }
-                        $('#other-locations').html(text);
-                    }
-                }
-            })
-        }, 1000)
-    } 
-</script>-->

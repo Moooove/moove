@@ -51,6 +51,17 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/custom.css">
 
+    <style>
+        #view-source {
+            position: fixed;
+            display: block;
+            right: 0;
+            bottom: 0;
+            margin-right: 40px;
+            margin-bottom: 40px;
+            z-index: 900;
+        }
+    </style>
 </head>
 
 <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base bodyStyle">
@@ -58,9 +69,7 @@
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <!-- Title -->
-                <div id="headerLogo">
-                    <a href="/"><img id="headerImage" src="img/moove-logo.png"></a>
-                </div>
+                <div id="headerLogo"><a href="/"><img id="headerImage" src="img/moove-logo.png"></a></div>
                 <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
                 <!-- Navigation. We hide it in small screens. -->
@@ -75,15 +84,46 @@
             <div class="mdl-grid mainContent">
                 <!-- boxed content here -->
                 <div class="mdl-cell mdl-cell--12-col">
-                    <p class="mainHeader">Cyclists Central AKL</p>
-                    <!--<div class="mdl-cell mdl-cell--12-col">
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                            Share my location
-                        </button>
-                    </div>-->
-                    <!-- MAP TO GO HERE -->
-                    <p>MAP HERE</p>
+                    <p class="mainHeader">About Moove</p>
+                    <div id="eventDate">Created during the Summer of Tech Hackfest in 2016, moove is a product of love made over 48 hours. We aim to help cyclists get together and stay together, by visualising each others locations in real time.</div>
+<p>Created By:</p>
+
+                    <ul class="demo-list-icon mdl-list">
+                        <li class="mdl-list__item">
+                            <span class="mdl-list__item-primary-content">
+    <i class="material-icons mdl-list__item-icon">person</i>
+    Ian Weng
+</span>
+                        </li>
+                        <li class="mdl-list__item">
+                            <span class="mdl-list__item-primary-content">
+    <i class="material-icons mdl-list__item-icon">person</i>
+    Callum Herries
+</span>
+                        </li>
+                        <li class="mdl-list__item">
+                            <span class="mdl-list__item-primary-content">
+    <i class="material-icons mdl-list__item-icon">person</i>
+    David Staehler
+  </span>
+                        </li>
+                        <li class="mdl-list__item">
+                            <span class="mdl-list__item-primary-content">
+    <i class="material-icons mdl-list__item-icon">person</i>
+    Julian de Villiers
+  </span>
+                        </li>
+                        <li class="mdl-list__item">
+                            <span class="mdl-list__item-primary-content">
+    <i class="material-icons mdl-list__item-icon">person</i>
+    Daniel Sayers
+  </span>
+                        </li>
+                    </ul>
                 </div>
+
+                Julian de Villiers Daniel Sayers
+
 
         </main>
         <footer class="mdl-mini-footer">
