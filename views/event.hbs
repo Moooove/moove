@@ -57,7 +57,7 @@
     <link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
     <style>
     body { margin:0; padding:0; }
-    .map { position:absolute; top:0; bottom:0; width:100%; }
+    .map { position:absolute; top:0; bottom:0; left:0; right:0 ; }
     .marker {
         color: #ff5252;
     }
@@ -86,10 +86,7 @@
 
 
         <main class="mdl-layout__content">
-            <div class="mdl-grid mainContent">
-                <!-- boxed content here -->
-                <div id='map_geo' class='map'></div>
-            </div>
+            <div id='map_geo' class='map'></div>
         </main>
         <footer class="mdl-mini-footer">
             <div class="mdl-mini-footer__left-section">
