@@ -105,6 +105,8 @@
     });
     var event_uuid = '{{event_uuid}}';
     var user_uuid = '{{user_uuid}}';
+    console.log(event_uuid)
+    console.log(user_uuid)
 
     function runUpdateLocationTimer(){
         setInterval(function(){
@@ -153,7 +155,7 @@
                 success: function(response) {
                     if (response.status == false){
                         console.log(response.msg)
-                    } else {
+                    } else if (response.value.userLocations.length != 0) {
                         var totalLong = 0;
                         var totalLat = 0;
                         var locations = response.value.userLocations.map(function(obj){

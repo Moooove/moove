@@ -48,8 +48,9 @@ router.get('/event/:uuid',function (req,res) {
             console.log(err)
             return console.error(err);
         } else {
+            console.log(event)
             var user_uuid = uuidService.newUuid;
-            res.render('event',{user_uuid:user_uuid, event_uuid:event.event_uuid});
+            res.render('event',{user_uuid:user_uuid, event_uuid:event[0].uuid});
         }
     });
 });
