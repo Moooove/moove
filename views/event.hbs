@@ -88,14 +88,6 @@
         <main class="mdl-layout__content">
             <div id='map_geo' class='map'></div>
         </main>
-        <footer class="mdl-mini-footer">
-            <div class="mdl-mini-footer__left-section">
-                <div class="mdl-logo">Made during the 2016 Summer of Tech Hackfest in Auckland</div>
-                <ul class="mdl-mini-footer__link-list">
-                    <li><a href="https://github.com/Moooove/moove">View the repo</a></li>
-                </ul>
-            </div>
-        </footer>
         <script src="https://code.getmdl.io/1.2.0/material.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
@@ -162,7 +154,11 @@
                     if (response.status == false){
                         console.log(response.msg)
                     } else {
+                        var totalLong = 0;
+                        var totalLat = 0;
                         var locations = response.value.userLocations.map(function(obj){
+                            totalLong += obj.long
+                            totalLat += obj.lat
                             var newObj = 
                             {
                                 "type": "Feature",
@@ -178,6 +174,9 @@
                         });
                         if (myLayer !== undefined)
                             myLayer.clearLayers();
+                        else {
+                            mapGeo.setView([totalLat/locations.length, totalLong/locations.length], 17);
+                        }
                         myLayer = L.mapbox.featureLayer().setGeoJSON(locations).addTo(mapGeo);
                     }
                 }
